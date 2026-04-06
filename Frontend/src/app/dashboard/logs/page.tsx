@@ -69,40 +69,40 @@ export default function LogsPage() {
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-1000 pb-10">
-      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between border-b border-white/5 pb-6">
+      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between border-b border-slate-200 pb-6">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
-            <h2 className="text-3xl font-black tracking-tight text-white font-sans uppercase italic leading-none">Access Console</h2>
+            <h2 className="text-3xl font-black tracking-tight text-slate-900 font-sans uppercase italic leading-none">Access Console</h2>
             <Button 
                 variant="ghost" 
                 size="icon" 
-                className={`h-10 w-10 rounded-xl transition-all ${isSyncing ? 'bg-primary/20 animate-spin border border-primary/30' : 'bg-white/5 border border-white/5 hover:bg-white/10'}`}
+                className={`h-10 w-10 rounded-xl transition-all ${isSyncing ? 'bg-primary/10 animate-spin border border-primary/20' : 'bg-slate-50 border border-slate-100 hover:bg-slate-100'}`}
                 onClick={handleManualSync}
             >
-                <RefreshCw className={`h-4 w-4 ${isSyncing ? 'text-primary' : 'text-slate-500'}`} />
+                <RefreshCw className={`h-4 w-4 ${isSyncing ? 'text-primary' : 'text-slate-400'}`} />
             </Button>
           </div>
-          <p className="text-slate-400 font-semibold italic uppercase tracking-[0.15em] text-[10px]">Institutional security audit & activity log.</p>
+          <p className="text-slate-500 font-semibold italic uppercase tracking-[0.15em] text-[10px]">Institutional security audit & activity log.</p>
         </div>
         <div className="flex gap-2">
-            <Badge className="h-9 px-4 border-emerald-500/20 text-emerald-500 font-black uppercase tracking-[0.15em] text-[9px] bg-emerald-500/5 rounded-xl">
+            <Badge className="h-9 px-4 border-emerald-500/20 text-emerald-600 font-black uppercase tracking-[0.15em] text-[8px] bg-emerald-50 rounded-xl">
                  SECURE TUNNEL 
             </Badge>
-            <Badge className="h-9 px-4 border-indigo-500/20 text-indigo-500 font-black uppercase tracking-[0.15em] text-[9px] bg-indigo-500/5 rounded-xl italic">
+            <Badge className="h-9 px-4 border-indigo-500/20 text-indigo-600 font-black uppercase tracking-[0.15em] text-[8px] bg-indigo-50 rounded-xl italic">
                  AUDIT TRAIL ACTIVE
             </Badge>
         </div>
       </div>
 
       <div className="grid gap-8 lg:grid-cols-4">
-        <Card className="lg:col-span-4 institutional-card p-0 overflow-hidden relative group border-none shadow-2xl">
-          <div className="px-8 py-5 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
+        <Card className="lg:col-span-4 institutional-card p-0 overflow-hidden relative group border-none shadow-sm">
+          <div className="px-8 py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
             <div className="flex items-center gap-4">
                 <div className="h-8 w-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center">
                     <Lock className="h-3.5 w-3.5 text-primary" />
                 </div>
                 <div className="space-y-0.5">
-                    <h4 className="text-base font-black italic uppercase tracking-tighter text-white">Institutional Access History</h4>
+                    <h4 className="text-base font-black italic uppercase tracking-tighter text-slate-900">Institutional Access History</h4>
                     <p className="text-[8px] font-bold uppercase tracking-[0.15em] text-slate-500 opacity-60">Verified Admin Record</p>
                 </div>
             </div>
@@ -124,18 +124,18 @@ export default function LogsPage() {
                     <th className="px-8 py-4 text-right">Timestamp</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/5">
+                <tbody className="divide-y divide-slate-100">
                   {(logs || []).map((log) => (
-                    <tr key={log.id} className="group hover:bg-white/[0.03] transition-colors duration-500">
+                    <tr key={log.id} className="group hover:bg-slate-50 transition-colors duration-500">
                       <td className="px-8 py-4">
                         <span className="text-[10px] font-black text-primary italic uppercase tracking-widest bg-primary/5 px-2 py-1 rounded-md border border-primary/10">{log.id}</span>
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                            <div className="h-7 w-7 rounded-lg bg-white/5 flex items-center justify-center text-slate-500 group-hover:text-white transition-colors">
+                            <div className="h-7 w-7 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400 group-hover:text-slate-900 transition-colors">
                                 {getLogIcon(log.icon)}
                             </div>
-                            <span className="text-[11px] font-bold text-white uppercase italic tracking-tighter leading-none">{log.label}</span>
+                            <span className="text-[11px] font-bold text-slate-900 uppercase italic tracking-tighter leading-none">{log.label}</span>
                         </div>
                       </td>
                       <td className="px-6 py-4">
@@ -180,12 +180,12 @@ export default function LogsPage() {
               { label: "Active Tunnel", value: "ADMIN_CONSOLE", icon: Database, color: "text-primary" },
               { label: "Protocol Integrity", value: "OPTIMAL", icon: Activity, color: "text-emerald-500" },
               { label: "Last Sync", value: logs[0]?.timestamp.split(' ')[1] || "N/A", icon: Clock, color: "text-indigo-500" },
-              { label: "Security Status", value: "ENCRYPTED", icon: ShieldCheck, color: "text-white" }
+              { label: "Security Status", value: "ENCRYPTED", icon: ShieldCheck, color: "text-slate-900" }
           ].map((item, idx) => (
-              <Card key={idx} className="institutional-card bg-white/[0.01] border-white/5 group p-6 shadow-2xl">
+              <Card key={idx} className="institutional-card group p-6 shadow-sm border border-slate-200">
                   <p className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 mb-4">{item.label}</p>
                   <div className="space-y-1">
-                    <h4 className="text-xl font-black italic tracking-tighter uppercase text-white truncate leading-none">
+                    <h4 className="text-xl font-black italic tracking-tighter uppercase text-slate-900 truncate leading-none">
                         {item.value}
                     </h4>
                     <p className="text-[9px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1.5 opacity-60 leading-none mt-1">

@@ -50,19 +50,19 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-1000 pb-10">
-      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between border-b border-white/5 pb-6">
+      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between border-b border-slate-200 pb-6">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
-            <h2 className="text-3xl font-black tracking-tight text-white font-sans uppercase italic leading-none">Executive Hub</h2>
+            <h2 className="text-3xl font-black tracking-tight text-slate-900 font-sans uppercase italic leading-none">Executive Hub</h2>
             <LayoutDashboard className="h-4 w-4 text-primary opacity-60" />
           </div>
-          <p className="text-slate-400 font-semibold italic uppercase tracking-[0.15em] text-[10px]">Aura Intelligence | Active Enrollment Diagnostic.</p>
+          <p className="text-slate-500 font-semibold italic uppercase tracking-[0.15em] text-[10px]">Aura Intelligence | Active Enrollment Diagnostic.</p>
         </div>
         <div className="flex gap-2">
-            <Badge className="h-9 px-4 border-emerald-500/20 text-emerald-500 font-black uppercase tracking-[0.15em] text-[9px] bg-emerald-500/5 rounded-xl">
+            <Badge className="h-9 px-4 border-emerald-500/20 text-emerald-600 font-black uppercase tracking-[0.15em] text-[9px] bg-emerald-50 rounded-xl">
                 SYSTEM OPERATIONAL
             </Badge>
-            <Badge className="h-9 px-4 border-indigo-500/20 text-indigo-500 font-black uppercase tracking-[0.15em] text-[9px] bg-indigo-500/5 rounded-xl italic">
+            <Badge className="h-9 px-4 border-indigo-500/20 text-indigo-600 font-black uppercase tracking-[0.15em] text-[9px] bg-indigo-50 rounded-xl italic">
                 CORE v2.4
             </Badge>
         </div>
@@ -83,7 +83,7 @@ export default function DashboardPage() {
                  <stat.icon className={`h-4 w-4 ${stat.color} opacity-60`} />
               </div>
               <div className="space-y-1">
-                <h3 className="text-2xl font-black italic tracking-tighter text-white uppercase truncate leading-none">{stat.value}</h3>
+                <h3 className="text-2xl font-black italic tracking-tighter text-slate-900 uppercase truncate leading-none">{stat.value}</h3>
                 <p className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">{stat.sub}</p>
               </div>
             </div>
@@ -93,27 +93,27 @@ export default function DashboardPage() {
 
       <div className="grid gap-6 lg:grid-cols-3">
         <Card className="lg:col-span-2 institutional-card p-0 overflow-hidden group border-none">
-          <CardHeader className="bg-white/[0.02] border-b border-white/5 p-8">
+          <CardHeader className="bg-slate-50/50 border-b border-slate-100 p-8">
             <div className="flex items-center justify-between">
               <div className="space-y-2">
-                <CardTitle className="text-2xl font-black italic uppercase tracking-tighter text-white">Institutional Diagnostic</CardTitle>
+                <CardTitle className="text-2xl font-black italic uppercase tracking-tighter text-slate-900">Institutional Diagnostic</CardTitle>
                 <CardDescription className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mt-1 italic">
                     Real-time enrollment health & strategic vectoring.
                 </CardDescription>
               </div>
-              <ShieldCheck className="h-6 w-6 text-emerald-500 opacity-60" />
+              <ShieldCheck className="h-6 w-6 text-emerald-600 opacity-60" />
             </div>
           </CardHeader>
           <CardContent className="p-8 space-y-10">
               <div className="grid gap-8 md:grid-cols-2">
                   <div className="space-y-6">
-                      <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/5 flex flex-col gap-4 group/item hover:border-primary/40 transition-all duration-500">
+                      <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col gap-4 group/item hover:border-primary/40 transition-all duration-500">
                          <div className="flex items-center justify-between">
                             <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500">Predicted Yield</span>
                             <Percent className="h-3.5 w-3.5 text-primary opacity-60" />
                          </div>
-                         <div className="text-3xl font-black text-white italic tracking-tighter leading-none">89.4%</div>
-                         <div className="flex items-center gap-2 text-[8px] font-black text-emerald-500 uppercase tracking-widest">
+                         <div className="text-3xl font-black text-slate-900 italic tracking-tighter leading-none">89.4%</div>
+                         <div className="flex items-center gap-2 text-[8px] font-black text-emerald-600 uppercase tracking-widest">
                             <ArrowUpRight className="h-3 w-3" />
                             +4.2% Above Baseline
                          </div>
@@ -131,11 +131,11 @@ export default function DashboardPage() {
                       </div>
                   </div>
 
-                  <div className="rounded-2xl border border-white/5 bg-white/[0.01] p-6 space-y-6 flex flex-col justify-between">
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50/20 p-6 space-y-6 flex flex-col justify-between">
                       <div className="space-y-4">
                         <div className="flex items-center gap-3">
                             <Database className="h-4 w-4 text-primary opacity-60" />
-                            <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-white">System Logs</h4>
+                            <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-900">System Logs</h4>
                         </div>
                         <div className="space-y-3">
                             {[1, 2, 3].map(i => (
@@ -146,7 +146,7 @@ export default function DashboardPage() {
                             ))}
                         </div>
                       </div>
-                      <div className="pt-4 border-t border-white/5">
+                      <div className="pt-4 border-t border-slate-100">
                         <span className="text-[8px] font-black text-primary uppercase tracking-widest italic cursor-pointer hover:underline" onClick={() => router.push("/dashboard/logs")}>
                             View Security Audit
                         </span>
@@ -188,7 +188,7 @@ export default function DashboardPage() {
                   </div>
                   <Button 
                     variant="outline" 
-                    className="w-full bg-white/5 border-white/20 hover:bg-white/10 text-white font-black text-[8px] tracking-[0.3em] uppercase h-12 rounded-xl italic transition-all"
+                    className="w-full bg-white/10 border-white/30 hover:bg-white/20 text-white font-black text-[8px] tracking-[0.3em] uppercase h-12 rounded-xl italic transition-all"
                     onClick={() => router.push("/dashboard/reports")}
                   >
                     Generate Executive Synthesis

@@ -63,10 +63,10 @@ export default function AnalyticsPage() {
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-slate-900/95 backdrop-blur-md p-4 rounded-xl border border-white/10 shadow-2xl">
+        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xl">
           <p className="text-[9px] font-black uppercase tracking-widest text-primary mb-2">{label || 'Metric'}</p>
           <div className="space-y-1">
-            <p className="text-xl font-black text-white italic">{payload[0].value.toLocaleString()} <span className="text-[9px] opacity-40 not-italic uppercase tracking-tight">Records</span></p>
+            <p className="text-xl font-black text-slate-900 italic">{payload[0].value.toLocaleString()} <span className="text-[9px] opacity-40 not-italic uppercase tracking-tight text-slate-500">Records</span></p>
           </div>
         </div>
       );
@@ -75,19 +75,19 @@ export default function AnalyticsPage() {
   };
 
   const chartTheme = {
-    textColor: 'rgba(215, 225, 235, 0.4)', // Slate-400 equivalent
-    gridColor: 'rgba(255, 255, 255, 0.03)',
+    textColor: 'rgba(71, 85, 105, 0.6)', // Slate-600 equivalent
+    gridColor: 'rgba(0, 0, 0, 0.05)',
   };
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-1000 pb-10">
-      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between border-b border-white/5 pb-6">
+      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between border-b border-slate-200 pb-6">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
-            <h2 className="text-3xl font-black tracking-tight text-white font-sans uppercase italic leading-none">Diagnostic Suite</h2>
+            <h2 className="text-3xl font-black tracking-tight text-slate-900 font-sans uppercase italic leading-none">Diagnostic Suite</h2>
             <BarChartIcon className="h-4 w-4 text-primary opacity-60" />
           </div>
-          <p className="text-slate-400 font-semibold italic uppercase tracking-[0.15em] text-[10px]">Strategic Enrollment Planning (SEP) Analytics.</p>
+          <p className="text-slate-500 font-semibold italic uppercase tracking-[0.15em] text-[10px]">Strategic Enrollment Planning (SEP) Analytics.</p>
         </div>
         <div className="flex gap-2">
             <Button 
@@ -95,12 +95,12 @@ export default function AnalyticsPage() {
                 size="sm" 
                 onClick={loadAnalytics} 
                 disabled={loading}
-                className="h-9 px-4 border-white/5 bg-white/5 text-slate-400 font-black uppercase tracking-[0.15em] text-[8px] rounded-lg items-center gap-2 hover:bg-white/10 hover:text-white transition-all"
+                className="h-9 px-4 border-slate-200 bg-white text-slate-500 font-black uppercase tracking-[0.15em] text-[8px] rounded-lg items-center gap-2 hover:bg-slate-50 hover:text-slate-900 transition-all"
             >
                 {loading ? <Loader2 className="h-3 w-3 animate-spin" /> : <RefreshCw className="h-3 w-3" />}
                 Sync Engine
             </Button>
-            <Badge className="h-9 px-4 border-emerald-500/20 text-emerald-500 font-black uppercase tracking-[0.15em] text-[9px] bg-emerald-500/5 rounded-lg">
+            <Badge className="h-9 px-4 border-emerald-500/20 text-emerald-600 font-black uppercase tracking-[0.15em] text-[9px] bg-emerald-50 rounded-lg">
                 LIVE DATA
             </Badge>
         </div>
@@ -121,7 +121,7 @@ export default function AnalyticsPage() {
                         <item.icon className={`h-4 w-4 ${item.color} opacity-60`} />
                     </div>
                     <div className="space-y-1">
-                        <h4 className="text-xl font-black italic tracking-tighter text-white uppercase truncate leading-none">{item.value}</h4>
+                        <h4 className="text-xl font-black italic tracking-tighter text-slate-900 uppercase truncate leading-none">{item.value}</h4>
                         <p className="text-[9px] font-bold text-slate-500 uppercase tracking-widest leading-none mt-1">{item.sub}</p>
                     </div>
                 </div>
@@ -131,12 +131,12 @@ export default function AnalyticsPage() {
 
       <div className="grid gap-6 lg:grid-cols-2">
         <Card className="institutional-card p-0 overflow-hidden group border-none">
-          <div className="px-8 py-5 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
+          <div className="px-8 py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
             <div className="space-y-1">
-                <h4 className="text-xl font-black italic uppercase tracking-tighter text-white font-sans">Socio-Economic Profile</h4>
+                <h4 className="text-xl font-black italic uppercase tracking-tighter text-slate-900 font-sans">Socio-Economic Profile</h4>
             </div>
             {analytics.is_financial_synthetic && (
-                <Badge className="bg-pink-500/10 text-pink-500 border-none font-black text-[7px] tracking-widest px-2 py-0.5 uppercase italic rounded-md">INSTITUTIONAL MODEL</Badge>
+                <Badge className="bg-pink-50 text-pink-600 border-none font-black text-[7px] tracking-widest px-2 py-0.5 uppercase italic rounded-md">INSTITUTIONAL MODEL</Badge>
             )}
           </div>
           <CardContent className="p-0 flex flex-col md:flex-row items-center">
@@ -164,13 +164,13 @@ export default function AnalyticsPage() {
               {(analytics.financial_distribution || []).map((item: any, index: number) => (
                 <div key={item.Category} className="space-y-1 group/legend">
                   <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-tighter italic">
-                    <span className="text-slate-500 group-hover/legend:text-white transition-colors uppercase">{item.Category}</span>
-                    <span className="text-white">{item.Students.toLocaleString()}</span>
+                    <span className="text-slate-500 group-hover/legend:text-slate-900 transition-colors uppercase">{item.Category}</span>
+                    <span className="text-slate-900">{item.Students.toLocaleString()}</span>
                   </div>
-                  <div className="h-1.5 w-full bg-white/[0.03] rounded-full overflow-hidden border border-white/5">
+                  <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden border border-slate-200">
                     <div 
                         className="h-full rounded-full transition-all duration-1000" 
-                        style={{ width: `${(item.Students / analytics.total_students) * 100}%`, backgroundColor: COLORS[index % COLORS.length] }} 
+                        style={{ width: `${(item.Students / (analytics.total_students || 1)) * 100}%`, backgroundColor: COLORS[index % COLORS.length] }} 
                     />
                   </div>
                 </div>
@@ -180,12 +180,12 @@ export default function AnalyticsPage() {
         </Card>
 
         <Card className="institutional-card p-0 overflow-hidden group border-none">
-          <div className="px-8 py-5 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
+          <div className="px-8 py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
             <div className="space-y-1">
-                <h4 className="text-xl font-black italic uppercase tracking-tighter text-white font-sans">Legacy Index</h4>
+                <h4 className="text-xl font-black italic uppercase tracking-tighter text-slate-900 font-sans">Legacy Index</h4>
             </div>
             {analytics.is_family_synthetic && (
-                <Badge className="bg-amber-500/10 text-amber-500 border-none font-black text-[7px] tracking-widest px-2 py-0.5 uppercase italic rounded-md">INSTITUTIONAL MODEL</Badge>
+                <Badge className="bg-amber-50 text-amber-600 border-none font-black text-[7px] tracking-widest px-2 py-0.5 uppercase italic rounded-md">INSTITUTIONAL MODEL</Badge>
             )}
           </div>
           <CardContent className="p-0 flex flex-col md:flex-row items-center">
@@ -213,13 +213,13 @@ export default function AnalyticsPage() {
               {(analytics.family_distribution || []).map((item: any, index: number) => (
                 <div key={item.Category} className="space-y-1 group/legend">
                   <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-tighter italic">
-                    <span className="text-slate-500 group-hover/legend:text-white transition-colors uppercase">{item.Category}</span>
-                    <span className="text-white">{item.Students.toLocaleString()}</span>
+                    <span className="text-slate-500 group-hover/legend:text-slate-900 transition-colors uppercase">{item.Category}</span>
+                    <span className="text-slate-900">{item.Students.toLocaleString()}</span>
                   </div>
-                  <div className="h-1.5 w-full bg-white/[0.03] rounded-full overflow-hidden border border-white/5">
+                  <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden border border-slate-200">
                     <div 
                         className="h-full rounded-full transition-all duration-1000" 
-                        style={{ width: `${(item.Students / analytics.total_students) * 100}%`, backgroundColor: COLORS[(index + 2) % COLORS.length] }} 
+                        style={{ width: `${(item.Students / (analytics.total_students || 1)) * 100}%`, backgroundColor: COLORS[(index + 2) % COLORS.length] }} 
                     />
                   </div>
                 </div>
@@ -229,9 +229,9 @@ export default function AnalyticsPage() {
         </Card>
 
         <Card className="lg:col-span-2 institutional-card p-0 overflow-hidden relative group border-none">
-          <div className="px-8 py-5 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
+          <div className="px-8 py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
             <div className="space-y-1">
-                <h4 className="text-xl font-black italic uppercase tracking-tighter text-white font-sans">Volume Analysis</h4>
+                <h4 className="text-xl font-black italic uppercase tracking-tighter text-slate-900 font-sans">Volume Analysis</h4>
                 <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-slate-500 opacity-60">Programmatic participation distribution.</p>
             </div>
             <Activity className="h-4 w-4 text-primary opacity-60" />
@@ -267,10 +267,10 @@ export default function AnalyticsPage() {
       </div>
 
       <div className="flex items-center justify-center">
-          <div className="flex items-center gap-3 bg-white/5 border border-white/5 px-6 py-4 rounded-xl shadow-xl">
+          <div className="flex items-center gap-3 bg-white border border-slate-200 px-6 py-4 rounded-xl shadow-sm">
               <Info className="h-4 w-4 text-primary opacity-60" />
               <p className="text-[9px] font-black uppercase tracking-[0.3em] text-slate-500 italic">
-                Verified Diagnostic Baseline: <span className="text-white">{analytics.total_students.toLocaleString()} SEEDS</span>
+                Verified Diagnostic Baseline: <span className="text-slate-900">{analytics.total_students.toLocaleString()} SEEDS</span>
               </p>
           </div>
       </div>

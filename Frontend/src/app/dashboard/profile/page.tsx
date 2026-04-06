@@ -57,32 +57,32 @@ export default function ProfilePage() {
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-1000 pb-10">
-      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between border-b border-white/5 pb-6">
+      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between border-b border-slate-200 pb-6">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
-            <h2 className="text-3xl font-black tracking-tight text-white font-sans uppercase italic leading-none">Security Console</h2>
-            <ShieldCheck className="h-4 w-4 text-indigo-500 opacity-60" />
+            <h2 className="text-3xl font-black tracking-tight text-slate-900 font-sans uppercase italic leading-none">Security Console</h2>
+            <ShieldCheck className="h-4 w-4 text-indigo-600 opacity-60" />
           </div>
-          <p className="text-slate-400 font-semibold italic uppercase tracking-[0.15em] text-[10px]">Administrative Access Control Hub.</p>
+          <p className="text-slate-500 font-semibold italic uppercase tracking-[0.15em] text-[10px]">Administrative Access Control Hub.</p>
         </div>
         <div className="flex gap-2">
-            <Badge className="h-9 px-4 border-indigo-500/20 text-indigo-500 font-black uppercase tracking-[0.15em] text-[9px] bg-indigo-500/5 rounded-xl">
+            <Badge className="h-9 px-4 border-indigo-500/20 text-indigo-600 font-black uppercase tracking-[0.15em] text-[8px] bg-indigo-50 rounded-xl">
                 ENCRYPTED HUB
             </Badge>
-            <Badge className="h-9 px-4 border-emerald-500/20 text-emerald-500 font-black uppercase tracking-[0.15em] text-[9px] bg-emerald-500/5 rounded-xl italic">
+            <Badge className="h-9 px-4 border-emerald-500/20 text-emerald-600 font-black uppercase tracking-[0.15em] text-[8px] bg-emerald-50 rounded-xl italic">
                  VERIFIED
             </Badge>
         </div>
       </div>
 
       <div className="grid gap-8 lg:grid-cols-3">
-        <Card className="lg:col-span-2 institutional-card p-0 overflow-hidden relative group border-none shadow-2xl">
-            <CardHeader className="bg-white/[0.02] border-b border-white/5 p-8 relative overflow-hidden">
+        <Card className="lg:col-span-2 institutional-card p-0 overflow-hidden relative group border-none shadow-sm">
+            <CardHeader className="bg-slate-50/50 border-b border-slate-100 p-8 relative overflow-hidden">
                 <div className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-primary to-rose-500 opacity-40" />
                 <div className="flex items-center gap-6 relative z-10">
                     <Fingerprint className="h-8 w-8 text-primary opacity-60" />
                     <div className="space-y-1">
-                        <CardTitle className="text-2xl font-black italic uppercase tracking-tighter text-white font-sans">Administrative Identity</CardTitle>
+                        <CardTitle className="text-2xl font-black italic uppercase tracking-tighter text-slate-900 font-sans">Administrative Identity</CardTitle>
                         <CardDescription className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mt-1 italic leading-none">
                             Update Secure Credentials
                         </CardDescription>
@@ -100,7 +100,7 @@ export default function ProfilePage() {
                                     type="email" 
                                     value={formData.email}
                                     onChange={(e) => setFormData({...formData, email: e.target.value})}
-                                    className="w-full h-14 pl-12 pr-6 bg-white/[0.03] border border-white/5 rounded-xl text-[11px] font-bold uppercase tracking-widest text-white focus:border-primary/50 outline-none transition-all"
+                                    className="w-full h-14 pl-12 pr-6 bg-slate-50 border border-slate-200 rounded-xl text-[11px] font-bold uppercase tracking-widest text-slate-900 focus:border-primary/50 outline-none transition-all"
                                 />
                             </div>
                         </div>
@@ -113,7 +113,7 @@ export default function ProfilePage() {
                                     type="password" 
                                     placeholder="NEW PASSCODE..."
                                     onChange={(e) => setFormData({...formData, password: e.target.value})}
-                                    className="w-full h-14 pl-12 pr-6 bg-white/[0.03] border border-white/5 rounded-xl text-[11px] font-bold uppercase tracking-widest text-white focus:border-primary/50 outline-none transition-all placeholder:text-slate-600"
+                                    className="w-full h-14 pl-12 pr-6 bg-slate-50 border border-slate-200 rounded-xl text-[11px] font-bold uppercase tracking-widest text-slate-900 focus:border-primary/50 outline-none transition-all placeholder:text-slate-400"
                                 />
                             </div>
                         </div>
@@ -160,19 +160,19 @@ export default function ProfilePage() {
                 </div>
             </Card>
 
-            <Card className="institutional-card p-8 space-y-6 border-white/5 group transition-all min-h-[220px] shadow-2xl bg-white/[0.01]">
-                <div className="flex items-center gap-4 border-b border-white/5 pb-4">
+            <Card className="institutional-card p-8 space-y-6 border-slate-200 group transition-all min-h-[220px] shadow-sm bg-white">
+                <div className="flex items-center gap-4 border-b border-slate-100 pb-4">
                     <RefreshCw className="h-4 w-4 text-rose-500 opacity-60" />
-                    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white italic leading-none">Session Status</p>
+                    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-900 italic leading-none">Session Status</p>
                 </div>
                 <div className="space-y-4">
                     {[
                         { label: "Institutional Admin", value: "LAST SYNC: 2M AGO" },
                         { label: "IP Protocol", value: "192.168.1.1 (OK)" }
                     ].map(item => (
-                        <div key={item.label} className="border-b border-white/5 pb-3 group/item cursor-default flex items-center justify-between">
-                            <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 group-hover/item:text-white transition-colors leading-none">{item.label}</span>
-                            <span className="text-[9px] font-bold text-rose-500/80 italic leading-none">{item.value}</span>
+                        <div key={item.label} className="border-b border-slate-100 pb-3 group/item cursor-default flex items-center justify-between">
+                            <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 group-hover/item:text-primary transition-colors leading-none">{item.label}</span>
+                            <span className="text-[9px] font-bold text-rose-600/80 italic leading-none">{item.value}</span>
                         </div>
                     ))}
                 </div>

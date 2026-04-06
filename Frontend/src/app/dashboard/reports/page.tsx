@@ -44,60 +44,60 @@ export default function ReportsPage() {
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-1000 pb-10">
-      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between border-b border-white/5 pb-6">
+      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between border-b border-slate-200 pb-6">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
-            <h2 className="text-3xl font-black tracking-tight text-white font-sans uppercase italic leading-none">Synthesis Center</h2>
-            <FileText className="h-4 w-4 text-emerald-500 opacity-60" />
+            <h2 className="text-3xl font-black tracking-tight text-slate-900 font-sans uppercase italic leading-none">Synthesis Center</h2>
+            <FileText className="h-4 w-4 text-emerald-600 opacity-60" />
           </div>
-          <p className="text-slate-400 font-semibold italic uppercase tracking-[0.15em] text-[10px]">Strategic Enrollment Planning (SEP) & Generation.</p>
+          <p className="text-slate-500 font-semibold italic uppercase tracking-[0.15em] text-[10px]">Strategic Enrollment Planning (SEP) & Generation.</p>
         </div>
         <div className="flex gap-2">
-            <Badge className="h-9 px-4 border-emerald-500/20 text-emerald-500 font-black uppercase tracking-[0.15em] text-[9px] bg-emerald-500/5 rounded-xl">
+            <Badge className="h-9 px-4 border-emerald-500/20 text-emerald-600 font-black uppercase tracking-[0.15em] text-[9px] bg-emerald-50 rounded-xl">
                 VERIFIED 
             </Badge>
-            <Badge className="h-9 px-4 border-indigo-500/20 text-indigo-500 font-black uppercase tracking-[0.15em] text-[9px] bg-indigo-500/5 rounded-xl italic">
+            <Badge className="h-9 px-4 border-indigo-500/20 text-indigo-600 font-black uppercase tracking-[0.15em] text-[9px] bg-indigo-50 rounded-xl italic">
                  AURA CORE 2.4
             </Badge>
         </div>
       </div>
 
       {!analytics ? (
-        <Card className="institutional-card bg-white/[0.01] border-dashed border-2 border-white/5 flex flex-col items-center justify-center py-20 group text-center">
-            <Database className="h-10 w-10 text-slate-500 mx-auto mb-6 opacity-20" />
-            <h3 className="text-2xl font-black mb-2 italic tracking-tighter uppercase text-slate-500">Baseline Missing</h3>
+        <Card className="institutional-card bg-white border-dashed border-2 border-slate-200 flex flex-col items-center justify-center py-20 group text-center">
+            <Database className="h-10 w-10 text-slate-300 mx-auto mb-6" />
+            <h3 className="text-2xl font-black mb-2 italic tracking-tighter uppercase text-slate-400">Baseline Missing</h3>
         </Card>
       ) : (
         <div className="grid gap-8 lg:grid-cols-3">
-          <Card className="lg:col-span-2 institutional-card p-0 overflow-hidden relative group border-none shadow-2xl">
-            <CardHeader className="border-b border-white/5 bg-white/[0.02] p-8">
+          <Card className="lg:col-span-2 institutional-card p-0 overflow-hidden relative group border-none shadow-sm">
+            <CardHeader className="border-b border-slate-100 bg-slate-50/50 p-8">
               <div className="flex items-center justify-between">
                 <div className="space-y-1">
-                    <CardTitle className="text-2xl font-black italic uppercase tracking-tighter text-white font-sans">Strategic Summary hub</CardTitle>
+                    <CardTitle className="text-2xl font-black italic uppercase tracking-tighter text-slate-900 font-sans">Strategic Summary hub</CardTitle>
                     <div className="flex items-center gap-3 mt-1">
                         <CardDescription className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">Protocol v2.4</CardDescription>
                         {hasSyntheticInsights && (
-                            <Badge className="bg-amber-500/10 text-amber-500 border-none font-black text-[7px] tracking-widest px-2 py-0.5 uppercase italic rounded-md">VERIFIED SYNTHESIS</Badge>
+                            <Badge className="bg-amber-500/10 text-amber-600 border-none font-black text-[7px] tracking-widest px-2 py-0.5 uppercase italic rounded-md">VERIFIED SYNTHESIS</Badge>
                         )}
                     </div>
                 </div>
-                <ShieldCheck className="h-6 w-6 text-emerald-500 opacity-60" />
+                <ShieldCheck className="h-6 w-6 text-emerald-600 opacity-60" />
               </div>
             </CardHeader>
             <CardContent className="p-8 space-y-8">
               <div className="grid gap-6 md:grid-cols-2">
                 <div className="space-y-2">
                     <p className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 italic ml-1 leading-none">Strategic Yield Leader</p>
-                    <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/5 flex items-center justify-between hover:border-primary/40 transition-all duration-500 group">
-                        <span className="text-lg font-black italic uppercase tracking-tighter text-white font-sans">{insights.yield_leader || "GENERAL SCIENCES"}</span>
+                    <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between hover:border-primary/40 transition-all duration-500 group">
+                        <span className="text-lg font-black italic uppercase tracking-tighter text-slate-900 font-sans">{insights.yield_leader || "GENERAL SCIENCES"}</span>
                         <ArrowUpRight className="h-4 w-4 text-primary group-hover:rotate-45 transition-transform" />
                     </div>
                 </div>
                 <div className="space-y-2">
                     <p className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 italic ml-1 leading-none">Growth Index</p>
-                    <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/5 flex items-center justify-between hover:border-pink-500/40 transition-all duration-500 group">
-                        <span className="text-lg font-black italic uppercase tracking-tighter text-white font-sans">{insights.yield_velocity || "STABLE CURVE"}</span>
-                        <TrendingUp className="h-4 w-4 text-pink-500 group-hover:scale-125 transition-transform" />
+                    <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between hover:border-pink-500/40 transition-all duration-500 group">
+                        <span className="text-lg font-black italic uppercase tracking-tighter text-slate-900 font-sans">{insights.yield_velocity || "STABLE CURVE"}</span>
+                        <TrendingUp className="h-4 w-4 text-pink-600 group-hover:scale-125 transition-transform" />
                     </div>
                 </div>
               </div>
@@ -107,9 +107,9 @@ export default function ReportsPage() {
                 <div className="relative z-10 space-y-4">
                     <div className="flex items-center gap-3">
                         <Activity className="h-3.5 w-3.5 text-primary opacity-60" />
-                        <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-white">Executive Synthesis Note</h4>
+                        <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-900">Executive Synthesis Note</h4>
                     </div>
-                    <p className="text-xs font-semibold text-slate-300 leading-loose italic uppercase tracking-tight opacity-90">
+                    <p className="text-xs font-semibold text-slate-600 leading-loose italic uppercase tracking-tight opacity-90">
                         {insights.yield_leader && insights.growth_pulse ? (
                             <>Institutional profile indicates strong programmatic demand in <span className="text-primary font-black">{insights.yield_leader}</span>, with critical regional pulse peaking from <span className="text-emerald-500 font-black italic">{insights.growth_pulse}</span> hub.</>
                         ) : (
@@ -160,10 +160,10 @@ export default function ReportsPage() {
                 </div>
             </Card>
 
-            <Card className="institutional-card p-8 space-y-6 border-white/5 group transition-all min-h-[240px] shadow-2xl">
+            <Card className="institutional-card p-8 space-y-6 border-slate-200 group transition-all min-h-[240px] shadow-sm bg-white">
                 <div className="flex items-center gap-4">
-                    <Database className="h-4 w-4 text-emerald-500 opacity-60" />
-                    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white italic">Export Mapping</p>
+                    <Database className="h-4 w-4 text-emerald-600 opacity-60" />
+                    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-900 italic">Export Mapping</p>
                 </div>
                 <ul className="space-y-4">
                     {[
@@ -175,7 +175,7 @@ export default function ReportsPage() {
                     ].map(item => (
                         <li key={item} className="flex items-center gap-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest group/item leading-none">
                             <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 opacity-40 group-hover/item:opacity-100 group-hover/item:scale-125 transition-all" />
-                            <span className="group-hover/item:text-white transition-colors">{item}</span>
+                            <span className="group-hover/item:text-slate-900 transition-colors">{item}</span>
                         </li>
                     ))}
                 </ul>

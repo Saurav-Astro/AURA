@@ -55,19 +55,19 @@ export default function UploadPage() {
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-1000 pb-10">
-      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between border-b border-white/5 pb-6">
+      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between border-b border-slate-200 pb-6">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
-            <h2 className="text-3xl font-black tracking-tight text-white font-sans uppercase italic leading-none">Ingestion Hub</h2>
+            <h2 className="text-3xl font-black tracking-tight text-slate-900 font-sans uppercase italic leading-none">Ingestion Hub</h2>
             <Database className="h-4 w-4 text-primary opacity-60" />
           </div>
-          <p className="text-slate-400 font-semibold italic uppercase tracking-[0.15em] text-[10px]">Secure Institutional Record Processing.</p>
+          <p className="text-slate-500 font-semibold italic uppercase tracking-[0.15em] text-[10px]">Secure Institutional Record Processing.</p>
         </div>
         <div className="flex gap-2">
-            <Badge className="h-9 px-4 border-indigo-500/20 text-indigo-500 font-black uppercase tracking-[0.15em] text-[9px] bg-indigo-500/5 rounded-xl">
+            <Badge className="h-9 px-4 border-indigo-500/20 text-indigo-600 font-black uppercase tracking-[0.15em] text-[9px] bg-indigo-50 rounded-xl">
                 AURA 2.4
             </Badge>
-            <Badge className="h-9 px-4 border-emerald-500/20 text-emerald-500 font-black uppercase tracking-[0.15em] text-[9px] bg-emerald-500/5 rounded-xl italic">
+            <Badge className="h-9 px-4 border-emerald-500/20 text-emerald-600 font-black uppercase tracking-[0.15em] text-[9px] bg-emerald-50 rounded-xl italic">
                  SECURE
             </Badge>
         </div>
@@ -75,13 +75,13 @@ export default function UploadPage() {
 
       <div className="grid gap-8 lg:grid-cols-3">
         <div className="lg:col-span-2">
-          <Card className="institutional-card p-0 overflow-hidden relative group border-none shadow-2xl">
-            <CardHeader className="bg-white/[0.02] border-b border-white/5 p-8 relative overflow-hidden">
+          <Card className="institutional-card p-0 overflow-hidden relative group border-none shadow-sm">
+            <CardHeader className="bg-slate-50/50 border-b border-slate-100 p-8 relative overflow-hidden">
                 <div className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-primary to-emerald-500 opacity-40" />
                 <div className="flex items-center gap-6 relative z-10">
                     <Database className="h-8 w-8 text-primary opacity-60" />
                     <div className="space-y-1">
-                        <CardTitle className="text-2xl font-black italic uppercase tracking-tighter text-white font-sans">Data Ingestion Hub</CardTitle>
+                        <CardTitle className="text-2xl font-black italic uppercase tracking-tighter text-slate-900 font-sans">Data Ingestion Hub</CardTitle>
                         <CardDescription className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mt-1 italic leading-none">
                             Supports .CSV, .XLSX, and .XLS.
                         </CardDescription>
@@ -97,7 +97,7 @@ export default function UploadPage() {
                         </div>
                     </div>
                     
-                    <p className="mb-10 max-w-sm text-[11px] font-bold text-slate-400 leading-relaxed uppercase tracking-[0.1em] opacity-80 italic">
+                    <p className="mb-10 max-w-sm text-[11px] font-bold text-slate-500 leading-relaxed uppercase tracking-[0.1em] opacity-80 italic">
                         Select records to initiate predictive trends & regional pulse.
                     </p>
                     
@@ -122,12 +122,12 @@ export default function UploadPage() {
                             </Button>
                         ) : (
                             <div className="space-y-4 animate-in zoom-in duration-500 w-full">
-                                <div className="bg-white/5 border border-primary/40 rounded-xl p-4 flex items-center justify-between shadow-2xl group/file transition-all">
+                                <div className="bg-slate-50 border border-primary/20 rounded-xl p-4 flex items-center justify-between shadow-sm group/file transition-all">
                                     <div className="flex items-center gap-3 min-w-0">
                                         <FileSpreadsheet className="h-4 w-4 text-primary opacity-60" />
-                                        <span className="text-[10px] font-black truncate max-w-[150px] italic text-white uppercase tracking-widest">{selectedFile.name}</span>
+                                        <span className="text-[10px] font-black truncate max-w-[150px] italic text-slate-900 uppercase tracking-widest">{selectedFile.name}</span>
                                     </div>
-                                    <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                                    <CheckCircle2 className="h-4 w-4 text-emerald-600" />
                                 </div>
                                 <Button 
                                     size="lg" 
@@ -153,17 +153,17 @@ export default function UploadPage() {
         </div>
 
         <div className="space-y-8">
-          <Card className="institutional-card p-8 relative overflow-hidden group border-none shadow-2xl bg-white/[0.01] min-h-[180px]">
+          <Card className="institutional-card p-8 relative overflow-hidden group border-slate-200 shadow-sm bg-white min-h-[180px]">
             <div className="flex items-center gap-4 mb-6">
               <Info className="h-4 w-4 text-primary opacity-60" />
-              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white italic leading-none">Protocol Specs</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-900 italic leading-none">Protocol Specs</p>
             </div>
             <div className="space-y-4">
-              <div className="flex justify-between items-center bg-white/[0.03] p-4 rounded-xl border border-white/5 transition-all hover:bg-white/5 group/item">
+              <div className="flex justify-between items-center bg-slate-50 p-4 rounded-xl border border-slate-100 transition-all hover:bg-slate-100 group/item">
                 <span className="text-[9px] font-bold text-slate-500 uppercase italic tracking-widest leading-none">Status</span>
-                <Badge className="bg-emerald-500/10 text-emerald-500 border-none font-black text-[8px] tracking-widest px-2 py-0.5 uppercase rounded-md">Operational</Badge>
+                <Badge className="bg-emerald-500/10 text-emerald-600 border-none font-black text-[8px] tracking-widest px-2 py-0.5 uppercase rounded-md">Operational</Badge>
               </div>
-              <div className="flex justify-between items-center bg-white/[0.03] p-4 rounded-xl border border-white/5 transition-all hover:bg-white/5 group/item">
+              <div className="flex justify-between items-center bg-slate-50 p-4 rounded-xl border border-slate-100 transition-all hover:bg-slate-100 group/item">
                 <span className="text-[9px] font-bold text-slate-500 uppercase italic tracking-widest leading-none">Active Records</span>
                 <span className="text-[9px] font-black uppercase text-primary tracking-widest italic leading-none">
                   {analytics?.total_students.toLocaleString() || "0"} SEEDSETS
