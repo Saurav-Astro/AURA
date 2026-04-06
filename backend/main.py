@@ -7,7 +7,8 @@ import uvicorn
 app = FastAPI(title="Student Enrollment Trend Analysis System API")
 
 # Configure CORS
-origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000,http://localhost:9002").split(",")
+raw_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000,http://localhost:9002")
+origins = [origin.strip().rstrip('/') for origin in raw_origins.split(",")]
 
 app.add_middleware(
     CORSMiddleware,
