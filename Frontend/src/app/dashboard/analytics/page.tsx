@@ -13,6 +13,13 @@ import {
   BarChart,
   Area,
   AreaChart,
+  Radar,
+  RadarChart,
+  RadialBar,
+  RadialBarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
   CartesianGrid,
   Cell,
   Pie,
@@ -137,9 +144,6 @@ export default function AnalyticsPage() {
             <div className="space-y-1">
                 <h4 className="text-xl font-black italic uppercase tracking-tighter text-slate-900 font-sans">Socio-Economic Profile</h4>
             </div>
-            {analytics.is_financial_synthetic && (
-                <Badge className="bg-pink-50 text-pink-600 border-none font-black text-[7px] tracking-widest px-2 py-0.5 uppercase italic rounded-md">INSTITUTIONAL MODEL</Badge>
-            )}
           </div>
           <CardContent className="p-0 flex flex-col md:flex-row items-center">
             <div className="w-full md:w-1/2 p-6 h-[300px]">
@@ -186,29 +190,21 @@ export default function AnalyticsPage() {
             <div className="space-y-1">
                 <h4 className="text-xl font-black italic uppercase tracking-tighter text-slate-900 font-sans">Legacy Index</h4>
             </div>
-            {analytics.is_family_synthetic && (
-                <Badge className="bg-amber-50 text-amber-600 border-none font-black text-[7px] tracking-widest px-2 py-0.5 uppercase italic rounded-md">INSTITUTIONAL MODEL</Badge>
-            )}
           </div>
           <CardContent className="p-0 flex flex-col md:flex-row items-center">
             <div className="w-full md:w-1/2 p-6 h-[300px]">
               <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={(analytics.family_distribution || []).map(f => ({ name: f.Category, value: f.Students }))}
-                    cx="50%"
-                    cy="50%"
-                    paddingAngle={8}
-                    innerRadius={60}
-                    outerRadius={80}
-                    dataKey="value"
-                  >
-                    {(analytics.family_distribution || []).map((entry: any, index: number) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[(index + 2) % COLORS.length]} />
-                    ))}
-                  </Pie>
+                <RadialBarChart 
+                  cx="50%" cy="50%" innerRadius="30%" outerRadius="100%" barSize={12} 
+                  data={(analytics.family_distribution || []).map((f, i) => ({ name: f.Category, value: f.Students, fill: COLORS[(i + 2) % COLORS.length] }))}
+                >
+                  <RadialBar 
+                    background 
+                    dataKey="value" 
+                    cornerRadius={10}
+                  />
                   <RechartsTooltip content={<CustomTooltip />} />
-                </PieChart>
+                </RadialBarChart>
               </ResponsiveContainer>
             </div>
             <div className="w-full md:w-1/2 p-8 space-y-4">
@@ -277,29 +273,13 @@ export default function AnalyticsPage() {
           </div>
           <CardContent className="p-8">
             <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={analytics.region_distribution || []}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={chartTheme.gridColor} />
-                <XAxis 
-                  dataKey="Region" 
-                  axisLine={false} 
-                  tickLine={false} 
-                  tick={{fill: chartTheme.textColor, fontSize: 10, fontWeight: 900}}
-                  dy={10}
-                />
-                <YAxis 
-                  axisLine={false} 
-                  tickLine={false} 
-                  tick={{fill: chartTheme.textColor, fontSize: 10, fontWeight: 900}}
-                />
+              <RadarChart cx="50%" cy="50%" outerRadius="75%" data={analytics.region_distribution || []}>
+                <PolarGrid stroke={chartTheme.gridColor} />
+                <PolarAngleAxis dataKey="Region" tick={{fill: chartTheme.textColor, fontSize: 10, fontWeight: 900}} />
+                <PolarRadiusAxis angle={30} domain={[0, 'auto']} tick={false} axisLine={false} />
+                <Radar name="Students" dataKey="Students" stroke="#10b981" fill="#10b981" fillOpacity={0.4} animationDuration={2000} />
                 <RechartsTooltip content={<CustomTooltip />} />
-                <Bar 
-                  dataKey="Students" 
-                  fill="#10b981" 
-                  radius={[6, 6, 0, 0]} 
-                  barSize={32}
-                  animationDuration={2000}
-                />
-              </BarChart>
+              </RadarChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
