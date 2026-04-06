@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: aura-analytics-api
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app --bind 0.0.0.0:$PORT
+    envVars:
+      - key: ALLOWED_ORIGINS
+        value: "https://aura-analytics-ui.onrender.com"
+      - key: PYTHON_VERSION
+        value: 3.10.0

@@ -1,0 +1,15 @@
+# Institutional Exclusions
+Document/
+test_data/
+
+# Python Exclusions
+__pycache__/
+*.pyc
+.venv/
+env/
+venv/
+.env
+
+# Diagnostic Artifacts
+*.log
+.pytest_cache/

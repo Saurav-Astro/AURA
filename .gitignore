@@ -1,0 +1,15 @@
+# Institutional Exclusions
+Document/
+test_data/
+
+# Environment & Dependencies
+.venv/
+node_modules/
+__pycache__/
+*.pyc
+
+# Build Artifacts
+.next/
+dist/
+build/
+.env*.local
