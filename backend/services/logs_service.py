@@ -45,7 +45,7 @@ def get_access_logs() -> List[Dict[str, Any]]:
         generate_initial_logs()
     return _access_logs
 
-def add_log_entry(action: str, label: str, icon: str, status: str = "SUCCESS"):
+def add_log_entry(action: str, label: str, icon: str, status: str = "SUCCESS", origin: str = "ADMIN_CONSOLE"):
     global _access_logs
     new_log = {
         "id": f"LOG-{1000 + len(_access_logs)}",
@@ -54,7 +54,7 @@ def add_log_entry(action: str, label: str, icon: str, status: str = "SUCCESS"):
         "label": label,
         "icon": icon,
         "user": "ADMIN_VERIFIED",
-        "origin": "ADMIN_CONSOLE",
+        "origin": origin,
         "status": status
     }
     _access_logs.insert(0, new_log)

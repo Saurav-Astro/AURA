@@ -1,7 +1,9 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 import os
+from starlette.middleware.base import BaseHTTPMiddleware
 from fastapi.middleware.cors import CORSMiddleware
 from routes import auth, upload, analytics, forecast, export, logs
+from services.logs_service import add_log_entry
 import uvicorn
 
 app = FastAPI(title="Student Enrollment Trend Analysis System API")
@@ -17,6 +19,29 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+class LogAuditorMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        response = await call_next(request)
+        if request.method != "OPTIONS" and request.url.path not in ["/docs", "/openapi.json", "/", "/health"]:
+            ip = request.client.host if request.client else "UNKNOWN SYS"
+            path = request.url.path
+            action, label, icon = "SYSTEM_PING", "NETWORK PING", "Activity"
+            
+            if "/login" in path:
+                action, label, icon = "AUTHENTICATION", "SECURE LOGIN", "ShieldCheck"
+            elif "/upload" in path:
+                action, label, icon = "DATA_INGESTION", "RECORD UPLOAD", "Database"
+            elif "/analytics" in path or "/forecast" in path:
+                action, label, icon = "DIAGNOSTIC_QUERY", "DATA QUERY", "Activity"
+            elif "/logs" in path:
+                action, label, icon = "AUDIT_VIEW", "LOGS ACCESS", "Eye"
+                
+            status = "WARNING" if response.status_code >= 400 else "SUCCESS"
+            add_log_entry(action=action, label=label, icon=icon, status=status, origin=ip)
+        return response
+
+app.add_middleware(LogAuditorMiddleware)
 
 # Include Routers
 app.include_router(auth.router, tags=["Authentication"])

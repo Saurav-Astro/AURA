@@ -11,6 +11,8 @@ import {
 import {
   Bar,
   BarChart,
+  Area,
+  AreaChart,
   CartesianGrid,
   Cell,
   Pie,
@@ -261,6 +263,88 @@ export default function AnalyticsPage() {
                   animationDuration={2000}
                 />
               </BarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        <Card className="institutional-card p-0 overflow-hidden relative group border-none shadow-sm">
+          <div className="px-8 py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+            <div className="space-y-1">
+                <h4 className="text-xl font-black italic uppercase tracking-tighter text-slate-900 font-sans">Regional Impact</h4>
+                <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-slate-500 opacity-60">Geographic origin distribution.</p>
+            </div>
+            <Map className="h-4 w-4 text-emerald-600 opacity-60" />
+          </div>
+          <CardContent className="p-8">
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={analytics.region_distribution || []}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={chartTheme.gridColor} />
+                <XAxis 
+                  dataKey="Region" 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{fill: chartTheme.textColor, fontSize: 10, fontWeight: 900}}
+                  dy={10}
+                />
+                <YAxis 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{fill: chartTheme.textColor, fontSize: 10, fontWeight: 900}}
+                />
+                <RechartsTooltip content={<CustomTooltip />} />
+                <Bar 
+                  dataKey="Students" 
+                  fill="#10b981" 
+                  radius={[6, 6, 0, 0]} 
+                  barSize={32}
+                  animationDuration={2000}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        <Card className="institutional-card p-0 overflow-hidden relative group border-none shadow-sm">
+          <div className="px-8 py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+            <div className="space-y-1">
+                <h4 className="text-xl font-black italic uppercase tracking-tighter text-slate-900 font-sans">Institutional Growth</h4>
+                <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-slate-500 opacity-60">Year-over-year record velocity.</p>
+            </div>
+            <TrendingUp className="h-4 w-4 text-pink-600 opacity-60" />
+          </div>
+          <CardContent className="p-8">
+            <ResponsiveContainer width="100%" height={300}>
+              <AreaChart data={analytics.yearly_trend || []}>
+                <defs>
+                  <linearGradient id="colorStudents" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#ec4899" stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor="#ec4899" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={chartTheme.gridColor} />
+                <XAxis 
+                  dataKey="Year" 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{fill: chartTheme.textColor, fontSize: 10, fontWeight: 900}}
+                  dy={10}
+                />
+                <YAxis 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{fill: chartTheme.textColor, fontSize: 10, fontWeight: 900}}
+                />
+                <RechartsTooltip content={<CustomTooltip />} />
+                <Area 
+                  type="monotone" 
+                  dataKey="Students" 
+                  stroke="#ec4899" 
+                  strokeWidth={3}
+                  fillOpacity={1} 
+                  fill="url(#colorStudents)" 
+                  animationDuration={2000}
+                />
+              </AreaChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
