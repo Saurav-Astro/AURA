@@ -8,7 +8,7 @@ from fastapi.security import OAuth2PasswordBearer
 from models.schemas import TokenData
 
 # Secret key for JWT signing
-SECRET_KEY = "aura_analytics_secret_key"
+SECRET_KEY = os.getenv("SECRET_KEY", "aura_analytics_dev_secret_insecure")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
