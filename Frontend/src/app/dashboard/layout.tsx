@@ -36,6 +36,11 @@ export default function DashboardLayout({
   const router = useRouter();
   const { logout } = useData();
 
+  const handleLogout = () => {
+    logout();
+    router.push("/");
+  };
+
   const navItems = [
     { name: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
     { name: "Upload Data", icon: Upload, path: "/dashboard/upload" },
@@ -153,6 +158,16 @@ export default function DashboardLayout({
                     </div>
                 )}
             </div>
+
+            <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={handleLogout}
+                title="Secure Logout"
+                className="hover:bg-rose-50 text-slate-400 hover:text-rose-500 rounded-xl transition-colors"
+               >
+                  <LogOut className="h-4 w-4" />
+              </Button>
           </div>
         </header>
 
