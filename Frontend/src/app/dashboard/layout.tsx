@@ -72,7 +72,6 @@ export default function DashboardLayout({
               </div>
               <div className="flex flex-col">
                 <span className="font-black italic tracking-tighter text-xl text-slate-900 leading-none">AURA</span>
-                <span className="text-[7px] font-black uppercase tracking-[0.3em] text-slate-500">Intelligence Hub</span>
               </div>
             </div>
           ) : (
