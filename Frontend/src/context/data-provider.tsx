@@ -9,7 +9,9 @@ interface AnalyticsData {
   total_students: number;
   yearly_trend: any[];
   course_distribution: any[];
+  course_distribution_label?: string;
   region_distribution: any[];
+  region_distribution_label?: string;
   family_distribution: any[];
   family_distribution_label?: string;
   financial_distribution: any[];

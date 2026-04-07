@@ -37,11 +37,11 @@ def preprocess_enrollment_data(df: pd.DataFrame):
     
     mandatory_mapping = {
         "Year": ["Year", "year", "YEAR", "Academic Year", "Enroll_Year", "Admission Year"],
-        "Course": ["Course", "course", "COURSE", "Program", "Subject", "Department"],
         "Students": ["Students", "students", "STUDENTS", "Enrollment", "Count", "Total Students"],
-        "Region": ["Region", "region", "REGION", "Location", "State", "City"],
     }
     optional_mapping = {
+        "Course": ["Course", "course", "COURSE", "Program", "Subject", "Department"],
+        "Region": ["Region", "region", "REGION", "Location", "State", "City"],
         "Financial_Background": ["Financial_Background", "Finance", "Income", "Economic Status", "Fee Category", "Scholarship", "Fee", "Income Group", "Socio-Economic", "Wealth", "Financial Status"],
         "Family_Background": ["Family_Background", "Family", "Background", "Parent Job", "Caste", "Category", "Religion", "Father's Occupation", "Mother's Occupation", "Legacy", "Alumni", "First Generation", "Demographic", "Social Category"],
         "School": ["School", "school", "SCHOOL", "Previous School", "High School", "Institution", "Board", "Intermediate"]
@@ -81,19 +81,8 @@ def preprocess_enrollment_data(df: pd.DataFrame):
             identified_cols.add("Year")
             found = True
 
-        if not found:
-            # DYNAMIC FALLBACK: Assign to any unused string column, otherwise generate dummy data.
-            unmapped_str_cols = [c for c in df.columns if c not in identified_cols and df[c].dtype == 'object']
-            if unmapped_str_cols:
-                fallback_col = unmapped_str_cols[0]
-                final_mapping[fallback_col] = standard
-                identified_cols.add(fallback_col)
-                found = True
-            else:
-                df[standard] = f"UNKNOWN {standard.upper()}"
-                final_mapping[standard] = standard
-                identified_cols.add(standard)
-                found = True
+            # If it's a mandatory column and still not found by the specific fallbacks, this shouldn't be reached
+            pass
 
     # Process Optional
     for standard, aliases in optional_mapping.items():
@@ -107,8 +96,8 @@ def preprocess_enrollment_data(df: pd.DataFrame):
     df = df.rename(columns=final_mapping)
     
     # We'll use a dynamic selection based on what's available
-    required_columns = ["Year", "Course", "Students", "Region"]
-    optional_columns = ["Financial_Background", "Family_Background", "School"]
+    required_columns = ["Year", "Students"]
+    optional_columns = ["Course", "Region", "Financial_Background", "Family_Background", "School"]
     
     # Force 1-dimensional selection: If rename created duplicates, only take the first
     df = df.loc[:, ~df.columns.duplicated()]
@@ -127,7 +116,9 @@ def preprocess_enrollment_data(df: pd.DataFrame):
     return _processed_data
 
 def get_data_preview(df: pd.DataFrame, n=5):
+    # Safely replace NaNs with None to prevent invalid literal NaN in JSON responses
+    preview_df = df.head(n).astype(object).where(pd.notnull(df.head(n)), None)
     return {
-        "columns": df.columns.tolist(),
-        "data": df.head(n).to_dict(orient='records')
+        "columns": preview_df.columns.tolist(),
+        "data": preview_df.to_dict(orient='records')
     }

@@ -58,7 +58,7 @@ def extract_real_distribution(df: pd.DataFrame, target_col: str, fallback_label:
     # Absolute last resort fallback
     return [{"Category": "Group A", "Students": int(total_students*0.6)}, {"Category": "Group B", "Students": int(total_students*0.4)}], fallback_label
 
-def get_strategic_insights(df: pd.DataFrame) -> Dict[str, Any]:
+def get_strategic_insights(df: pd.DataFrame, course_label: str = "Program", region_label: str = "Area", school_label: str = "Origin") -> Dict[str, Any]:
     if df is None or df.empty:
         return {
             "yield_leader": "GENERAL SCIENCES",
@@ -66,14 +66,18 @@ def get_strategic_insights(df: pd.DataFrame) -> Dict[str, Any]:
             "yield_velocity": "STABLE CURVE",
             "record_longevity": "2024 CYCLE",
             "top_school": "UNKNOWN",
-            "is_insight_synthetic": True
+            "is_insight_synthetic": True,
+            "yield_leader_label": "Yield Leader",
+            "growth_pulse_label": "Geographic Peak",
+            "top_school_label": "Maximum Admissions"
         }
     
-    course_counts = df['Course'].dropna().value_counts()
-    yield_leader = course_counts.idxmax() if not course_counts.empty else "GENERAL SCIENCES"
+    # We will compute these based on whatever column was actually mapped to the distributions
+    course_counts = df[course_label].dropna().value_counts() if course_label in df.columns else pd.Series()
+    yield_leader = course_counts.idxmax() if not course_counts.empty else "N/A"
     
-    region_counts = df['Region'].dropna().value_counts()
-    growth_pulse = region_counts.idxmax() if not region_counts.empty else "MAIN CAMPUS"
+    region_counts = df[region_label].dropna().value_counts() if region_label in df.columns else pd.Series()
+    growth_pulse = region_counts.idxmax() if not region_counts.empty else "N/A"
     
     yearly = df.groupby('Year')['Students'].sum().sort_index()
     velocity = "STABLE CURVE"
@@ -83,18 +87,19 @@ def get_strategic_insights(df: pd.DataFrame) -> Dict[str, Any]:
             growth = ((latest - prev) / prev) * 100
             velocity = f"{'+' if growth >= 0 else ''}{growth:.1f}% YIELD"
     
-    school_leader = "UNKNOWN"
-    if 'School' in df.columns and not df['School'].isna().all():
-        school_counts = df['School'].dropna().value_counts()
-        school_leader = school_counts.idxmax() if not school_counts.empty else "UNKNOWN"
+    school_counts = df[school_label].dropna().value_counts() if school_label in df.columns else pd.Series()
+    school_leader = school_counts.idxmax() if not school_counts.empty else "N/A"
         
     return {
         "yield_leader": str(yield_leader).upper(),
         "growth_pulse": str(growth_pulse).upper(),
         "yield_velocity": velocity,
-        "record_longevity": f"{df['Year'].min()} - {df['Year'].max()} CYCLE",
+        "record_longevity": f"{int(df['Year'].min())} - {int(df['Year'].max())} CYCLE" if 'Year' in df.columns and not df.empty else "2024 CYCLE",
         "top_school": str(school_leader).upper(),
-        "is_insight_synthetic": course_counts.empty
+        "is_insight_synthetic": course_counts.empty,
+        "yield_leader_label": str(course_label).upper(),
+        "growth_pulse_label": str(region_label).upper(),
+        "top_school_label": str(school_label).upper()
     }
 
 def get_analytics_summary(df: pd.DataFrame) -> Dict[str, Any]:
@@ -114,32 +119,40 @@ def get_analytics_summary(df: pd.DataFrame) -> Dict[str, Any]:
 
     total_students = int(df['Students'].sum())
     yearly_trend = df.groupby('Year')['Students'].sum().reset_index().to_dict(orient='records')
-    course_distribution = df.groupby('Course')['Students'].sum().reset_index().sort_values(by='Students', ascending=False).to_dict(orient='records')
-    region_distribution = df.groupby('Region')['Students'].sum().reset_index().to_dict(orient='records')
+    
+    # Universal Dynamic Synchronization
+    used_cols = ["Year", "Students"]
 
-    # Demographic Sync
-    is_family_synthetic = False
-    is_financial_synthetic = False
-    used_cols = ["Year", "Course", "Students", "Region", "School"]
+    course_distribution, course_label = extract_real_distribution(df, 'Course', 'Programmatic Profile', total_students, used_cols)
+    used_cols.append(course_label if course_label != 'Course' else 'Course')
+
+    region_distribution, region_label = extract_real_distribution(df, 'Region', 'Geographic Distribution', total_students, used_cols)
+    used_cols.append(region_label if region_label != 'Region' else 'Region')
 
     family_distribution, family_label = extract_real_distribution(df, 'Family_Background', 'Demographic Index', total_students, used_cols)
     used_cols.append(family_label if family_label != 'Family_Background' else 'Family_Background')
     
     financial_distribution, financial_label = extract_real_distribution(df, 'Financial_Background', 'Distribution Profile', total_students, used_cols)
     used_cols.append(financial_label if financial_label != 'Financial_Background' else 'Financial_Background')
+    
+    # DYNAMIC DISCOVERY FOR TOP ORIGIN SCHOOL 
+    # To determine the best "school" proxy, we just pick the next best text column if School wasn't found
+    _, school_label_proxy = extract_real_distribution(df, 'School', 'Origin School', total_students, used_cols)
 
     return {
         "total_students": total_students,
         "yearly_trend": yearly_trend,
         "course_distribution": course_distribution,
+        "course_distribution_label": course_label,
         "region_distribution": region_distribution,
+        "region_distribution_label": region_label,
         "family_distribution": family_distribution,
         "family_distribution_label": family_label,
         "financial_distribution": financial_distribution,
         "financial_distribution_label": financial_label,
-        "is_family_synthetic": is_family_synthetic,
-        "is_financial_synthetic": is_financial_synthetic,
-        "insights": get_strategic_insights(df)
+        "is_family_synthetic": False,
+        "is_financial_synthetic": False,
+        "insights": get_strategic_insights(df, course_label, region_label, school_label_proxy)
     }
 
 def generate_base64_charts(df: pd.DataFrame) -> Dict[str, str]:

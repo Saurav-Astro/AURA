@@ -117,10 +117,10 @@ export default function AnalyticsPage() {
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {[
-              { label: "Programmatic Demand", value: insights.yield_leader, color: "text-primary", bg: "bg-primary/20", icon: Activity, sub: "Yield Leader" },
-              { label: "Regional Pulse", value: insights.growth_pulse, color: "text-emerald-500", bg: "bg-emerald-500/20", icon: Map, sub: "Geographic Peak" },
+              { label: insights.yield_leader_label || "Programmatic Demand", value: insights.yield_leader, color: "text-primary", bg: "bg-primary/20", icon: Activity, sub: "Yield Leader" },
+              { label: insights.growth_pulse_label || "Regional Pulse", value: insights.growth_pulse, color: "text-emerald-500", bg: "bg-emerald-500/20", icon: Map, sub: "Geographic Peak" },
               { label: "Yield Velocity", value: insights.yield_velocity, color: "text-pink-500", bg: "bg-pink-500/20", icon: TrendingUp, sub: "Growth Index" },
-              { label: "Top Origin School", value: insights.top_school || "UNKNOWN", color: "text-indigo-500", bg: "bg-indigo-500/20", icon: Database, sub: "Maximum Admissions" }
+              { label: insights.top_school_label || "Top Origin Source", value: insights.top_school || "UNKNOWN", color: "text-indigo-500", bg: "bg-indigo-500/20", icon: Database, sub: "Maximum Concentration" }
           ].map((item, idx) => (
             <Card key={idx} className="institutional-card group relative overflow-hidden">
                 <div className={`absolute top-0 right-0 h-24 w-24 ${item.bg} blur-[40px] rounded-full translate-x-12 -translate-y-12 opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
@@ -229,8 +229,8 @@ export default function AnalyticsPage() {
         <Card className="lg:col-span-2 institutional-card p-0 overflow-hidden relative group border-none">
           <div className="px-8 py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
             <div className="space-y-1">
-                <h4 className="text-xl font-black italic uppercase tracking-tighter text-slate-900 font-sans">Volume Analysis</h4>
-                <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-slate-500 opacity-60">Programmatic participation distribution.</p>
+                <h4 className="text-xl font-black italic uppercase tracking-tighter text-slate-900 font-sans">{analytics.course_distribution_label || "Volume Analysis"}</h4>
+                <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-slate-500 opacity-60">Primary categorical participation distribution.</p>
             </div>
             <Activity className="h-4 w-4 text-primary opacity-60" />
           </div>
@@ -239,7 +239,7 @@ export default function AnalyticsPage() {
               <BarChart data={analytics.course_distribution || []}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={chartTheme.gridColor} />
                 <XAxis 
-                  dataKey="Course" 
+                  dataKey="Category"  
                   axisLine={false} 
                   tickLine={false} 
                   tick={{fill: chartTheme.textColor, fontSize: 10, fontWeight: 900}}
@@ -266,8 +266,8 @@ export default function AnalyticsPage() {
         <Card className="institutional-card p-0 overflow-hidden relative group border-none shadow-sm">
           <div className="px-8 py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
             <div className="space-y-1">
-                <h4 className="text-xl font-black italic uppercase tracking-tighter text-slate-900 font-sans">Regional Impact</h4>
-                <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-slate-500 opacity-60">Geographic origin distribution.</p>
+                <h4 className="text-xl font-black italic uppercase tracking-tighter text-slate-900 font-sans">{analytics.region_distribution_label || "Regional Impact"}</h4>
+                <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-slate-500 opacity-60">Geographical or secondary axis clustering.</p>
             </div>
             <Map className="h-4 w-4 text-emerald-600 opacity-60" />
           </div>
@@ -275,7 +275,7 @@ export default function AnalyticsPage() {
             <ResponsiveContainer width="100%" height={300}>
               <RadarChart cx="50%" cy="50%" outerRadius="75%" data={analytics.region_distribution || []}>
                 <PolarGrid stroke={chartTheme.gridColor} />
-                <PolarAngleAxis dataKey="Region" tick={{fill: chartTheme.textColor, fontSize: 10, fontWeight: 900}} />
+                <PolarAngleAxis dataKey="Category" tick={{fill: chartTheme.textColor, fontSize: 10, fontWeight: 900}} />
                 <PolarRadiusAxis angle={30} domain={[0, 'auto']} tick={false} axisLine={false} />
                 <Radar name="Students" dataKey="Students" stroke="#10b981" fill="#10b981" fillOpacity={0.4} animationDuration={2000} />
                 <RechartsTooltip content={<CustomTooltip />} />
