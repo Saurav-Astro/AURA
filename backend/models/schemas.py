@@ -17,6 +17,11 @@ class AnalyticsResponse(BaseModel):
     yearly_trend: List[Dict[str, Any]]
     course_distribution: List[Dict[str, Any]]
     region_distribution: List[Dict[str, Any]]
+    family_distribution: Optional[List[Dict[str, Any]]] = None
+    financial_distribution: Optional[List[Dict[str, Any]]] = None
+    insights: Optional[Dict[str, Any]] = None
+    is_family_synthetic: Optional[bool] = None
+    is_financial_synthetic: Optional[bool] = None
 
 class ForecastResponse(BaseModel):
     historical: List[Dict[str, Any]]

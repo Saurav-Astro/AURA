@@ -28,6 +28,7 @@ def get_strategic_insights(df: pd.DataFrame) -> Dict[str, Any]:
             "growth_pulse": "MAIN CAMPUS",
             "yield_velocity": "STABLE CURVE",
             "record_longevity": "2024 CYCLE",
+            "top_school": "UNKNOWN",
             "is_insight_synthetic": True
         }
     
@@ -45,11 +46,17 @@ def get_strategic_insights(df: pd.DataFrame) -> Dict[str, Any]:
             growth = ((latest - prev) / prev) * 100
             velocity = f"{'+' if growth >= 0 else ''}{growth:.1f}% YIELD"
     
+    school_leader = "UNKNOWN"
+    if 'School' in df.columns and not df['School'].isna().all():
+        school_counts = df['School'].dropna().value_counts()
+        school_leader = school_counts.idxmax() if not school_counts.empty else "UNKNOWN"
+        
     return {
         "yield_leader": str(yield_leader).upper(),
         "growth_pulse": str(growth_pulse).upper(),
         "yield_velocity": velocity,
         "record_longevity": f"{df['Year'].min()} - {df['Year'].max()} CYCLE",
+        "top_school": str(school_leader).upper(),
         "is_insight_synthetic": course_counts.empty
     }
 
@@ -77,6 +84,13 @@ def get_analytics_summary(df: pd.DataFrame) -> Dict[str, Any]:
     is_family_synthetic = False
     if 'Family_Background' in df.columns and not df['Family_Background'].isna().all():
         family_dist = df.groupby('Family_Background')['Students'].sum().reset_index()
+        family_dist.sort_values(by="Students", ascending=False, inplace=True)
+        if len(family_dist) > 4:
+            top = family_dist.iloc[:4]
+            other_sum = family_dist.iloc[4:]['Students'].sum()
+            other_df = pd.DataFrame([{'Family_Background': 'OTHER', 'Students': other_sum}])
+            family_dist = pd.concat([top, other_df], ignore_index=True)
+            
         family_distribution = family_dist.rename(columns={'Family_Background': 'Category'}).to_dict(orient='records')
     else:
         # Dynamic deterministic weighting based on dataset size for realism
@@ -93,6 +107,13 @@ def get_analytics_summary(df: pd.DataFrame) -> Dict[str, Any]:
     is_financial_synthetic = False
     if 'Financial_Background' in df.columns and not df['Financial_Background'].isna().all():
         financial_dist = df.groupby('Financial_Background')['Students'].sum().reset_index()
+        financial_dist.sort_values(by="Students", ascending=False, inplace=True)
+        if len(financial_dist) > 4:
+            top = financial_dist.iloc[:4]
+            other_sum = financial_dist.iloc[4:]['Students'].sum()
+            other_df = pd.DataFrame([{'Financial_Background': 'OTHER', 'Students': other_sum}])
+            financial_dist = pd.concat([top, other_df], ignore_index=True)
+            
         financial_distribution = financial_dist.rename(columns={'Financial_Background': 'Category'}).to_dict(orient='records')
     else:
         # Dynamic deterministic weighting based on dataset size for realism

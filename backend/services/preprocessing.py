@@ -42,8 +42,9 @@ def preprocess_enrollment_data(df: pd.DataFrame):
         "Region": ["Region", "region", "REGION", "Location", "State", "City"],
     }
     optional_mapping = {
-        "Financial_Background": ["Financial_Background", "Finance", "Income", "Economic Status"],
-        "Family_Background": ["Family_Background", "Family", "Background", "Parent Job"]
+        "Financial_Background": ["Financial_Background", "Finance", "Income", "Economic Status", "Fee Category", "Scholarship", "Fee", "Income Group", "Socio-Economic", "Wealth", "Financial Status"],
+        "Family_Background": ["Family_Background", "Family", "Background", "Parent Job", "Caste", "Category", "Religion", "Father's Occupation", "Mother's Occupation", "Legacy", "Alumni", "First Generation", "Demographic", "Social Category"],
+        "School": ["School", "school", "SCHOOL", "Previous School", "High School", "Institution", "Board", "Intermediate"]
     }
     
     final_mapping = {}
@@ -91,7 +92,7 @@ def preprocess_enrollment_data(df: pd.DataFrame):
     
     # We'll use a dynamic selection based on what's available
     required_columns = ["Year", "Course", "Students", "Region"]
-    optional_columns = ["Financial_Background", "Family_Background"]
+    optional_columns = ["Financial_Background", "Family_Background", "School"]
     
     # Filter only columns that exist after renaming
     existing_cols = [col for col in required_columns + optional_columns if col in df.columns]
@@ -102,9 +103,6 @@ def preprocess_enrollment_data(df: pd.DataFrame):
 
     # Handling missing values for required columns
     df = df.dropna(subset=[col for col in required_columns if col in df.columns])
-
-    # Removing duplicates
-    df = df.drop_duplicates()
 
     # Data type conversion
     df['Year'] = pd.to_numeric(df['Year'], errors='coerce').fillna(2024).astype(int)

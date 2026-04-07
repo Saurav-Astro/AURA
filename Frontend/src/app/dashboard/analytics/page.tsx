@@ -120,7 +120,7 @@ export default function AnalyticsPage() {
               { label: "Programmatic Demand", value: insights.yield_leader, color: "text-primary", bg: "bg-primary/20", icon: Activity, sub: "Yield Leader" },
               { label: "Regional Pulse", value: insights.growth_pulse, color: "text-emerald-500", bg: "bg-emerald-500/20", icon: Map, sub: "Geographic Peak" },
               { label: "Yield Velocity", value: insights.yield_velocity, color: "text-pink-500", bg: "bg-pink-500/20", icon: TrendingUp, sub: "Growth Index" },
-              { label: "Processing Engine", value: "ACTIVE", color: "text-indigo-500", bg: "bg-indigo-500/20", icon: Database, sub: "Aura Core 2.4" }
+              { label: "Top Origin School", value: insights.top_school || "UNKNOWN", color: "text-indigo-500", bg: "bg-indigo-500/20", icon: Database, sub: "Maximum Admissions" }
           ].map((item, idx) => (
             <Card key={idx} className="institutional-card group relative overflow-hidden">
                 <div className={`absolute top-0 right-0 h-24 w-24 ${item.bg} blur-[40px] rounded-full translate-x-12 -translate-y-12 opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
