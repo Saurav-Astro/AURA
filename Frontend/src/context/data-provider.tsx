@@ -11,7 +11,9 @@ interface AnalyticsData {
   course_distribution: any[];
   region_distribution: any[];
   family_distribution: any[];
+  family_distribution_label?: string;
   financial_distribution: any[];
+  financial_distribution_label?: string;
   is_family_synthetic?: boolean;
   is_financial_synthetic?: boolean;
   insights?: any;

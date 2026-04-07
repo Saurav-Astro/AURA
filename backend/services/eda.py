@@ -9,17 +9,54 @@ except ImportError:
     MATPLOTLIB_AVAILABLE = False
 from typing import Dict, Any, List
 
-def get_synthetic_distribution(total: int, categories: List[str], weights: List[float]) -> List[Dict[str, Any]]:
-    results = []
-    remaining = total
-    for i, cat in enumerate(categories):
-        if i == len(categories) - 1:
-            val = remaining
-        else:
-            val = int(total * weights[i])
-            remaining -= val
-        results.append({"Category": cat, "Students": max(0, val)})
-    return results
+def extract_real_distribution(df: pd.DataFrame, target_col: str, fallback_label: str, total_students: int, exclude_cols: List[str]):
+    if target_col in df.columns and not df[target_col].isna().all():
+        dist = df.groupby(target_col)['Students'].sum().reset_index()
+        dist.sort_values(by="Students", ascending=False, inplace=True)
+        if len(dist) > 4:
+            top = dist.iloc[:4]
+            other_sum = dist.iloc[4:]['Students'].sum()
+            other_df = pd.DataFrame([{target_col: 'OTHER', 'Students': other_sum}])
+            dist = pd.concat([top, other_df], ignore_index=True)
+        return dist.rename(columns={target_col: 'Category'}).to_dict(orient='records'), target_col
+    
+    # DYNAMIC DISCOVERY: Find the most 'interesting' unmapped categorical column
+    potential_cols = []
+    for col in df.columns:
+        if col not in exclude_cols and df[col].dtype == 'object':
+            nunique = df[col].nunique()
+            if 1 < nunique < 50:
+                potential_cols.append((col, nunique))
+                
+    if potential_cols:
+        potential_cols.sort(key=lambda x: abs(x[1] - 5)) # Prefer cardinalities around 5
+        best_col = potential_cols[0][0]
+        
+        dist = df.groupby(best_col)['Students'].sum().reset_index()
+        dist.sort_values(by="Students", ascending=False, inplace=True)
+        if len(dist) > 4:
+            top = dist.iloc[:4]
+            other_sum = dist.iloc[4:]['Students'].sum()
+            other_df = pd.DataFrame([{best_col: 'OTHER', 'Students': other_sum}])
+            dist = pd.concat([top, other_df], ignore_index=True)
+        return dist.rename(columns={best_col: 'Category'}).to_dict(orient='records'), best_col
+
+    # NUMERICAL BUCKETING: If absolutely no category, bin a numeric column!
+    num_cols = [c for c in df.columns if c not in exclude_cols and pd.api.types.is_numeric_dtype(df[c])]
+    if num_cols:
+        best_num = num_cols[0] 
+        try:
+            temp_bin = pd.qcut(df[best_num], q=4, duplicates='drop').astype(str)
+            df_temp = df.copy()
+            df_temp["_temp_bin"] = temp_bin
+            dist = df_temp.groupby("_temp_bin")['Students'].sum().reset_index()
+            dist.sort_values(by="Students", ascending=False, inplace=True)
+            return dist.rename(columns={"_temp_bin": 'Category'}).to_dict(orient='records'), f"{best_num} Tiers"
+        except Exception:
+            pass
+            
+    # Absolute last resort fallback
+    return [{"Category": "Group A", "Students": int(total_students*0.6)}, {"Category": "Group B", "Students": int(total_students*0.4)}], fallback_label
 
 def get_strategic_insights(df: pd.DataFrame) -> Dict[str, Any]:
     if df is None or df.empty:
@@ -68,8 +105,8 @@ def get_analytics_summary(df: pd.DataFrame) -> Dict[str, Any]:
             "yearly_trend": [{"Year": 2024, "Students": 1000}],
             "course_distribution": [{"Course": "CS", "Students": 400}, {"Course": "MBA", "Students": 600}],
             "region_distribution": [{"Region": "NORTH", "Students": 700}],
-            "family_distribution": get_synthetic_distribution(1000, ["FIRST GEN", "LEGACY"], [0.6, 0.4]),
-            "financial_distribution": get_synthetic_distribution(1000, ["STANDARD", "SCHOLARSHIP"], [0.8, 0.2]),
+            "family_distribution": [{"Category": "FIRST GEN", "Students": 600}, {"Category": "LEGACY", "Students": 400}],
+            "financial_distribution": [{"Category": "STANDARD", "Students": 800}, {"Category": "SCHOLARSHIP", "Students": 200}],
             "is_family_synthetic": False,
             "is_financial_synthetic": False,
             "insights": get_strategic_insights(None)
@@ -82,50 +119,14 @@ def get_analytics_summary(df: pd.DataFrame) -> Dict[str, Any]:
 
     # Demographic Sync
     is_family_synthetic = False
-    if 'Family_Background' in df.columns and not df['Family_Background'].isna().all():
-        family_dist = df.groupby('Family_Background')['Students'].sum().reset_index()
-        family_dist.sort_values(by="Students", ascending=False, inplace=True)
-        if len(family_dist) > 4:
-            top = family_dist.iloc[:4]
-            other_sum = family_dist.iloc[4:]['Students'].sum()
-            other_df = pd.DataFrame([{'Family_Background': 'OTHER', 'Students': other_sum}])
-            family_dist = pd.concat([top, other_df], ignore_index=True)
-            
-        family_distribution = family_dist.rename(columns={'Family_Background': 'Category'}).to_dict(orient='records')
-    else:
-        # Dynamic deterministic weighting based on dataset size for realism
-        w1 = 0.45 + (total_students % 10) / 100
-        w2 = 0.25 - (total_students % 5) / 100
-        w3 = 0.20 + (total_students % 3) / 100
-        w4 = 1.0 - (w1 + w2 + w3)
-        family_distribution = get_synthetic_distribution(
-            total_students, 
-            ["FIRST GENERATION", "ACADEMIC LEGACY", "CORPORATE", "OTHER"],
-            [w1, w2, w3, w4]
-        )
-    
     is_financial_synthetic = False
-    if 'Financial_Background' in df.columns and not df['Financial_Background'].isna().all():
-        financial_dist = df.groupby('Financial_Background')['Students'].sum().reset_index()
-        financial_dist.sort_values(by="Students", ascending=False, inplace=True)
-        if len(financial_dist) > 4:
-            top = financial_dist.iloc[:4]
-            other_sum = financial_dist.iloc[4:]['Students'].sum()
-            other_df = pd.DataFrame([{'Financial_Background': 'OTHER', 'Students': other_sum}])
-            financial_dist = pd.concat([top, other_df], ignore_index=True)
-            
-        financial_distribution = financial_dist.rename(columns={'Financial_Background': 'Category'}).to_dict(orient='records')
-    else:
-        # Dynamic deterministic weighting based on dataset size for realism
-        w1 = 0.55 - (total_students % 7) / 100
-        w2 = 0.25 + (total_students % 6) / 100
-        w3 = 0.15 + (total_students % 4) / 100
-        w4 = 1.0 - (w1 + w2 + w3)
-        financial_distribution = get_synthetic_distribution(
-            total_students,
-            ["STANDARD", "SCHOLARSHIP", "PREMIUM", "SUBSIDIZED"],
-            [w1, w2, w3, w4]
-        )
+    used_cols = ["Year", "Course", "Students", "Region", "School"]
+
+    family_distribution, family_label = extract_real_distribution(df, 'Family_Background', 'Demographic Index', total_students, used_cols)
+    used_cols.append(family_label if family_label != 'Family_Background' else 'Family_Background')
+    
+    financial_distribution, financial_label = extract_real_distribution(df, 'Financial_Background', 'Distribution Profile', total_students, used_cols)
+    used_cols.append(financial_label if financial_label != 'Financial_Background' else 'Financial_Background')
 
     return {
         "total_students": total_students,
@@ -133,7 +134,9 @@ def get_analytics_summary(df: pd.DataFrame) -> Dict[str, Any]:
         "course_distribution": course_distribution,
         "region_distribution": region_distribution,
         "family_distribution": family_distribution,
+        "family_distribution_label": family_label,
         "financial_distribution": financial_distribution,
+        "financial_distribution_label": financial_label,
         "is_family_synthetic": is_family_synthetic,
         "is_financial_synthetic": is_financial_synthetic,
         "insights": get_strategic_insights(df)

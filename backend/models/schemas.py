@@ -20,6 +20,8 @@ class AnalyticsResponse(BaseModel):
     family_distribution: Optional[List[Dict[str, Any]]] = None
     financial_distribution: Optional[List[Dict[str, Any]]] = None
     insights: Optional[Dict[str, Any]] = None
+    family_distribution_label: Optional[str] = None
+    financial_distribution_label: Optional[str] = None
     is_family_synthetic: Optional[bool] = None
     is_financial_synthetic: Optional[bool] = None
 

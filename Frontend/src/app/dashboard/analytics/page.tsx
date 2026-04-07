@@ -142,7 +142,7 @@ export default function AnalyticsPage() {
         <Card className="institutional-card p-0 overflow-hidden group border-none">
           <div className="px-8 py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
             <div className="space-y-1">
-                <h4 className="text-xl font-black italic uppercase tracking-tighter text-slate-900 font-sans">Socio-Economic Profile</h4>
+                <h4 className="text-xl font-black italic uppercase tracking-tighter text-slate-900 font-sans">{analytics.financial_distribution_label || "Socio-Economic Profile"}</h4>
             </div>
           </div>
           <CardContent className="p-0 flex flex-col md:flex-row items-center">
@@ -150,7 +150,7 @@ export default function AnalyticsPage() {
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
-                    data={(analytics.financial_distribution || []).map(fi => ({ name: fi.Category, value: fi.Students }))}
+                    data={(analytics.financial_distribution || []).map((fi: any) => ({ name: fi.Category, value: fi.Students }))}
                     cx="50%"
                     cy="50%"
                     innerRadius={60}
@@ -188,7 +188,7 @@ export default function AnalyticsPage() {
         <Card className="institutional-card p-0 overflow-hidden group border-none">
           <div className="px-8 py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
             <div className="space-y-1">
-                <h4 className="text-xl font-black italic uppercase tracking-tighter text-slate-900 font-sans">Legacy Index</h4>
+                <h4 className="text-xl font-black italic uppercase tracking-tighter text-slate-900 font-sans">{analytics.family_distribution_label || "Legacy Index"}</h4>
             </div>
           </div>
           <CardContent className="p-0 flex flex-col md:flex-row items-center">
@@ -196,7 +196,7 @@ export default function AnalyticsPage() {
               <ResponsiveContainer width="100%" height="100%">
                 <RadialBarChart 
                   cx="50%" cy="50%" innerRadius="30%" outerRadius="100%" barSize={12} 
-                  data={(analytics.family_distribution || []).map((f, i) => ({ name: f.Category, value: f.Students, fill: COLORS[(i + 2) % COLORS.length] }))}
+                  data={(analytics.family_distribution || []).map((f: any, i: number) => ({ name: f.Category, value: f.Students, fill: COLORS[(i + 2) % COLORS.length] }))}
                 >
                   <RadialBar 
                     background 
